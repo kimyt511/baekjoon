@@ -12,5 +12,6 @@
     "iosfwd": "cpp",
     "xiosbase": "cpp",
     "ios": "cpp"
-  }
+  },
+  "python.pythonPath": "C:\\Users\\KIMYT\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe"
 }
