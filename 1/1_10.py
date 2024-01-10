@@ -1,33 +1,32 @@
-# 872 Leaf-Similar Trees
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+# 2385 Amount of time for binary tree to be infected
+# dfs로 graph를 생성, bfs로 가장 먼 node에 도달하는 시간을 찾는다
 
 
 class Solution:
-    def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
-        stack1 = []
-
-        def search1(node):
-            if node == None:
+    def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
+        def dfs(node):
+            if node is None:
                 return
-            if (node.left == None) & (node.right == None):
-                stack1.append(node.val)
-            search1(node.left)
-            search1(node.right)
+            if node.left:
+                graph[node.val].append(node.left.val)
+                graph[node.left.val].append(node.val)
+            if node.right:
+                graph[node.val].append(node.right.val)
+                graph[node.right.val].append(node.val)
+            dfs(node.left)
+            dfs(node.right)
 
-        search1(root1)
-        stack2 = []
-
-        def search2(node):
-            if node == None:
-                return
-            if (node.left == None) & (node.right == None):
-                stack2.append(node.val)
-            search2(node.left)
-            search2(node.right)
-
-        search2(root2)
-        return stack1 == stack2
+        graph = defaultdict(list)
+        dfs(root)
+        visited = set()
+        queue = deque([start])
+        time = -1
+        while queue:
+            time += 1
+            for _ in range(len(queue)):
+                current_node = queue.popleft()
+                visited.add(current_node)
+                for neighbor in graph[current_node]:
+                    if neighbor not in visited:
+                        queue.append(neighbor)
+        return time
